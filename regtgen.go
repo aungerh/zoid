@@ -1,7 +1,5 @@
 package regtgen
 
-// TODO: Allow get total possible number of permutations
-
 import (
 	"errors"
 	"log"
