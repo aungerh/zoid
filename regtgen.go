@@ -3,10 +3,10 @@ package regtgen
 import (
 	"errors"
 	"log"
-	"math/rand"
 	"regexp/syntax"
 	"strings"
-	"time"
+
+	"github.com/valyala/fastrand"
 )
 
 type parser struct {
@@ -37,7 +37,7 @@ func (p *parser) generate() (string, error) {
 
 		for i := 0; i < len(p.rx.Rune); i++ {
 			if p.rx.Rune[i] == 35 {
-				b.WriteByte(p.validChars[randomint(len(p.validChars))])
+				b.WriteByte(p.validChars[fastrand.Uint32n(uint32(len(p.validChars)))])
 			} else {
 				b.WriteRune(p.rx.Rune[i])
 			}
@@ -66,9 +66,4 @@ func (p *parser) Generate() (string, error) {
 		log.Panic(err)
 	}
 	return value, nil
-}
-
-func randomint(max int) int {
-	rand.Seed(time.Now().UnixNano())
-	return rand.Intn(max)
 }
