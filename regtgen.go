@@ -11,8 +11,8 @@ import (
 
 type parser struct {
 	pattern    string
-	flags      syntax.Flags
 	validChars []byte
+	flags      syntax.Flags
 	rx         *syntax.Regexp
 }
 
@@ -30,7 +30,7 @@ func InitGenerator(pattern string, validCharacters []byte) *parser {
 
 // Generate creates a random string parting from a regular expression
 func (p *parser) generate() (string, error) {
-	// Current generator supports only `OpCharClass'
+	// React only to `#' type runes
 	switch p.rx.Op {
 	case 3:
 		b := strings.Builder{}
@@ -67,8 +67,6 @@ func (p *parser) Generate() (string, error) {
 	}
 	return value, nil
 }
-
-// --- UTILS ---
 
 func randomint(max int) int {
 	rand.Seed(time.Now().UnixNano())
