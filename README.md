@@ -15,8 +15,8 @@ import (
 )
 
 func main() {
-	allowedAlphabet := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	exp := regtgen.Init("###-###", allowedAlphabet)
+	allowedCharacters := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	exp := regtgen.Init("###-###", allowedCharacters)
 	single, err := exp.Generate() // mjg-zjt
 	if err != nil {
 		log.Panic(err)
