@@ -35,17 +35,18 @@ func main() {
 
 ## Benchmarks
 
-Comparing [nilium/regen](https://github.com/nilium/regen) Vs. [zyxan/regtgen](https://github.com/zyxan/regtgen)
+Comparing [nilium/regen](https://github.com/nilium/regen) vs [lucasjones/reggen](https://github.com/lucasjones/reggen) vs [zyxan/regtgen](https://github.com/zyxan/regtgen)
 
 ```
 ❯ go test -benchmem -bench=.
 goos: darwin
 goarch: amd64
 pkg: github.com/zyxan/benchmarks
-BenchmarkGoregen-4    	 1000000	      1327 ns/op	     792 B/op	      15 allocs/op
-BenchmarkZyxanGen-4   	 5000000	       260 ns/op	       8 B/op	       1 allocs/op
+BenchmarkGoregen-4    	 1000000	      1266 ns/op	     792 B/op	      15 allocs/op
+BenchmarkReggen-4     	 3000000	       409 ns/op	      64 B/op	      13 allocs/op
+BenchmarkZyxanGen-4   	 5000000	       258 ns/op	       8 B/op	       1 allocs/op
 PASS
-ok  	github.com/zyxan/benchmarks	2.945s
+ok  	github.com/zyxan/benchmarks	4.522s
 ```
 
 ## State -  Work In Progress
