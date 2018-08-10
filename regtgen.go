@@ -9,49 +9,34 @@ import (
 	"github.com/valyala/fastrand"
 )
 
-type parser struct {
-	pattern    string
+var (
+	reg *syntax.Regexp
+	err error
+)
+
+type block struct {
 	validChars []byte
 	flags      syntax.Flags
 	rx         *syntax.Regexp
 }
 
-func InitGenerator(pattern string, validCharacters []byte) *parser {
-	p := &parser{pattern: pattern}
-	reg, err := syntax.Parse(p.pattern, p.flags)
-	if err != nil {
+func Init(pattern string, validCharacters []byte) *block {
+	if reg, err = syntax.Parse(pattern, 0); err != nil {
 		log.Fatal(err)
 	}
 
-	p.validChars = validCharacters
-	p.rx = reg.Simplify()
-	return p
-}
-
-// Generate creates a random string parting from a regular expression
-func (p *parser) generate() (string, error) {
-	// React only to `#' type runes
-	switch p.rx.Op {
-	case 3:
-		b := strings.Builder{}
-
-		for i := 0; i < len(p.rx.Rune); i++ {
-			if p.rx.Rune[i] == 35 {
-				b.WriteByte(p.validChars[fastrand.Uint32n(uint32(len(p.validChars)))])
-			} else {
-				b.WriteRune(p.rx.Rune[i])
-			}
-		}
-		return b.String(), nil
-	default:
-		return "", errors.New("unsupported case")
+	b := &block{
+		validChars: validCharacters,
+		rx:         reg.Simplify(),
 	}
+
+	return b
 }
 
-func (p *parser) GenerateMany(n int) ([]string, error) {
+func (b *block) GenerateMany(n int) ([]string, error) {
 	res := []string{}
 	for i := 0; i < n; i++ {
-		val, err := p.generate()
+		val, err := b.generate()
 		if err != nil {
 			log.Panic(err)
 		}
@@ -60,10 +45,28 @@ func (p *parser) GenerateMany(n int) ([]string, error) {
 	return res, nil
 }
 
-func (p *parser) Generate() (string, error) {
-	value, err := p.generate()
+func (b *block) Generate() (string, error) {
+	value, err := b.generate()
 	if err != nil {
 		log.Panic(err)
 	}
 	return value, nil
+}
+
+// Generate creates a random string from a regular expression
+func (b *block) generate() (string, error) {
+	switch b.rx.Op {
+	case 3:
+		sb := strings.Builder{}
+		for i := 0; i < len(b.rx.Rune); i++ {
+			if b.rx.Rune[i] == 35 {
+				sb.WriteByte(b.validChars[fastrand.Uint32n(uint32(len(b.validChars)))])
+			} else {
+				sb.WriteRune(b.rx.Rune[i])
+			}
+		}
+		return sb.String(), nil
+	default:
+		return "", errors.New("unsupported case")
+	}
 }
