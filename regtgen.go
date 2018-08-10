@@ -4,7 +4,6 @@ package regtgen
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"math/rand"
 	"regexp/syntax"
@@ -51,15 +50,24 @@ func (p *parser) generate() (string, error) {
 	}
 }
 
-func (p *parser) Generate(n int) (string, error) {
+func (p *parser) GenerateMany(n int) ([]string, error) {
+	res := []string{}
 	for i := 0; i < n; i++ {
-		value, err := p.generate()
+		val, err := p.generate()
 		if err != nil {
 			log.Panic(err)
 		}
-		fmt.Println(value)
+		res = append(res, val)
 	}
-	return "", nil
+	return res, nil
+}
+
+func (p *parser) Generate() (string, error) {
+	value, err := p.generate()
+	if err != nil {
+		log.Panic(err)
+	}
+	return value, nil
 }
 
 // --- UTILS ---
