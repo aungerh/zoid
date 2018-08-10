@@ -1,6 +1,6 @@
 ## Regex Text Generator
 
-Generate random strings from expressions such as: "###-###".
+Generate random strings from expressions such as: "###-###". The subset of regular expressions this package accepts is reduced but curated in order to be blazing fast.
 
 ---
 
