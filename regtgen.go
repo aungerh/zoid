@@ -59,7 +59,7 @@ func (b *block) generate() (string, error) {
 	case 3:
 		sb := strings.Builder{}
 		for i := 0; i < len(b.rx.Rune); i++ {
-			if b.rx.Rune[i] == 35 {
+			if b.rx.Rune[i] == '#' {
 				sb.WriteByte(b.validChars[fastrand.Uint32n(uint32(len(b.validChars)))])
 			} else {
 				sb.WriteRune(b.rx.Rune[i])
