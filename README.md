@@ -9,27 +9,15 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/zyxan/regtgen"
 )
 
 func main() {
-	allowedCharacters := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	exp := regtgen.Init("###-###", allowedCharacters)
-	single, err := exp.Generate() // mjg-zjt
-	if err != nil {
-		log.Panic(err)
-	}
+	allowedAlphabet := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	gen := regtgen.Init("[###]{3}-fixed-[###]{3}", allowedAlphabet)
+	single, _ := gen.Generate() // tpF-fixed-bWV
 	fmt.Println(single)
-
-	many, err := exp.GenerateMany(7)
-	if err != nil {
-		log.Panic(err)
-	}
-	for i := 0; i < len(many); i++ {
-		fmt.Println(many[i])
-	}
 }
 ```
 
