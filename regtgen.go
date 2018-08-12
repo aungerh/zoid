@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"regexp/syntax"
+	"strconv"
 	"strings"
 
 	"github.com/valyala/fastrand"
@@ -67,6 +68,6 @@ func (b *block) generate() (string, error) {
 		}
 		return sb.String(), nil
 	default:
-		return "", errors.New("unsupported case")
+		return "", errors.New("unsupported case: " + strconv.Itoa(int(b.rx.Op)))
 	}
 }
