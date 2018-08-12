@@ -17,6 +17,7 @@ var (
 
 type block struct {
 	validChars []byte
+	runes      []byte
 	flags      syntax.Flags
 	rx         *syntax.Regexp
 }
@@ -29,6 +30,7 @@ func Init(pattern string, validCharacters []byte) *block {
 	b := &block{
 		validChars: validCharacters,
 		rx:         reg.Simplify(),
+		runes:      []byte(reg.Simplify().String()),
 	}
 
 	return b
@@ -56,14 +58,16 @@ func (b *block) Generate() (string, error) {
 
 // Generate creates a random string from a regular expression
 func (b *block) generate() (string, error) {
+	sb := strings.Builder{}
 	switch b.rx.Op {
 	case 3:
-		sb := strings.Builder{}
-		for i := 0; i < len(b.rx.Rune); i++ {
-			if b.rx.Rune[i] == '#' {
+		fallthrough
+	case 18:
+		for i := 0; i < len(b.runes); i++ {
+			if b.runes[i] == '#' {
 				sb.WriteByte(b.validChars[fastrand.Uint32n(uint32(len(b.validChars)))])
 			} else {
-				sb.WriteRune(b.rx.Rune[i])
+				sb.WriteByte(b.runes[i])
 			}
 		}
 		return sb.String(), nil
