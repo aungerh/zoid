@@ -15,7 +15,7 @@ import (
 
 func main() {
 	allowedAlphabet := []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	gen := regtgen.Init("[###]{3}-fixed-[###]{3}", allowedAlphabet)
+	gen := regtgen.Init("[#]{3}-fixed-[#]{3}", allowedAlphabet)
 	single, _ := gen.Generate() // tpF-fixed-bWV
 	fmt.Println(single)
 }
